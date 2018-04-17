@@ -9,11 +9,16 @@ function displayCeleb () {
     var celeb = $(this).attr("data-name");
     var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + celeb +"&api_key=cYspV105zCuhSY2GlSUP66RGIjGSLURD";
 
+    //Create an ajax call for the celebrity that is clicked
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        $("#celebrities-view").html(JSON.stringify(response));
+        console.log(response);
+        $("#celebrities-view").empty();
+        $("#celebrities-view").html(`
+            <p>Rating: ${response.data[i].rating}</p>
+        `);
     });
 }
 
