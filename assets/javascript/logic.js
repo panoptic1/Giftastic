@@ -18,16 +18,40 @@ function displayCeleb () {
         $("#celebrities-view").empty();
         for (var i=0; i < 10; i++) {
             console.log(i);
+            //Create a variable for a div that will contain the rating and the picture, which will nest inside "#celebrities-view"
+            var celebDiv = $("<div class=\"search-result\">")
+            console.log("celebDiv",celebDiv);
             var rating = response.data[i].rating;
             var still = response.data[i].images.fixed_height_still.url;
             var animated = response.data[i].images.fixed_height.url; 
             console.log("still",still);
             console.log("animated", animated);
-            
+            var celebImage = $("<img>")
+            celebImage.attr("src", still);
+            celebImage.attr("data-still", still);
+            celebImage.attr("data-animate", animated);
+            celebImage.attr("data-state", "still"); //Ask about this
+            celebImage.addClass("celeb-image");
             var p = $("<p>").text("rating:" + rating)
-            $("#ratings").append(p);
+            celebDiv.append(p);
+            celebDiv.append(celebImage);
+            console.log("celebDiv", celebDiv);
+            $("#celebrities-view").append(celebDiv);
         }
-    
+        
+        $(document).on("click", ".celeb-image", function(){
+            var state = $(this).attr("data-state");
+            if (state === "still"){
+                $(this).attr("src",
+                $(this).attr("data-animate"));
+                $(this).attr("data-state", "animated");
+            }
+            else{
+                $(this).attr("src",
+                $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+        });
     });
 }
 
