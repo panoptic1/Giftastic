@@ -7,18 +7,27 @@ var celebrities = ["Nicolas Cage", "Anna Ferris", "Bruce Campbell", "Kathy Griff
 //Function for grabbing info from the API when the button gets pushed
 function displayCeleb () {
     var celeb = $(this).attr("data-name");
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + celeb +"&api_key=cYspV105zCuhSY2GlSUP66RGIjGSLURD";
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + celeb +"&api_key=cYspV105zCuhSY2GlSUP66RGIjGSLURD&limit=10";
 
     //Create an ajax call for the celebrity that is clicked
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response){
-        console.log(response);
+        console.log("response=========^", response);
         $("#celebrities-view").empty();
-        $("#celebrities-view").html(`
-            <p>Rating: ${response.data[i].rating}</p>
-        `);
+        for (var i=0; i < 10; i++) {
+            console.log(i);
+            var rating = response.data[i].rating;
+            var still = response.data[i].images.fixed_height_still.url;
+            var animated = response.data[i].images.fixed_height.url; 
+            console.log("still",still);
+            console.log("animated", animated);
+            
+            var p = $("<p>").text("rating:" + rating)
+            $("#ratings").append(p);
+        }
+    
     });
 }
 
